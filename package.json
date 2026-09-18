@@ -1,0 +1,26 @@
+{
+  "name": "sql-text-al",
+  "version": "1.0.0",
+  "description": "Text-to-SQL Web Application with Intelligent Clarification Engine",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node src/test.js"
+  },
+  "keywords": [
+    "text-to-sql",
+    "clarification-engine",
+    "ai",
+    "express",
+    "sqlite"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  }
+}
