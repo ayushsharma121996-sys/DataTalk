@@ -1,16 +1,14 @@
-# 🚀 SQL_text_AL — Text-to-SQL with Clarification Engine
+# SQL_text_AL — Text-to-SQL with Clarification Engine
 
 > **An AI-powered Natural Language to SQL system featuring an interactive Clarification Engine that resolves query ambiguity to elevate Text-to-SQL accuracy from 35% to 85%+.**
 
----
-
-## 📌 1. Project Overview & Core Concept
+##  1. Project Overview & Core Concept
 
 Standard Text-to-SQL models frequently fail in real-world business environments because enterprise questions are inherently **ambiguous**. For example, when a user asks *"Who is the best customer?"*, existing LLMs silently assume `best` means `COUNT(orders)`, generating SQL that returns an incorrect result with artificially high confidence (**98% confidence on a flawed premise**).
 
 **SQL_text_AL** solves this by inserting an intelligent **Clarification Engine** layer before SQL generation:
 1. **Detects Ambiguity:** Identifies underspecified terms (*"best customer"*, *"top products"*, *"recent activity"*).
-2. **Prompts User:** Asks for clarification with interactive chips (*By Revenue ($)*, *By Order Count (🛒)*, *By Repeat Visits (🔁)*).
+2. **Prompts User:** Asks for clarification with interactive chips (*By Revenue ($)*, *By Order Count (🛒)*, *By Repeat Visits *).
 3. **Generates Precision SQL:** Generates validated SQL matched to verified user intent.
 4. **Delivers Trusted Intelligence:** Elevates end-to-end query accuracy from **35% to 85%+**.
 
@@ -47,8 +45,8 @@ Step 6: Frontend UI ◄── Step 5: Express API ◄── Step 4: SQL Gen & Gu
 ### **Step 3: Ambiguity Classifier & Clarification Engine ([src/services/clarificationEngine.js](file:///e:/SQL_text_AL/src/services/clarificationEngine.js))**
 - Built the semantic analyzer that intercepts queries before translation.
 - Mapped ambiguous patterns to selectable options:
-  - *"best customer"* $\rightarrow$ `By Total Revenue ($)`, `By Order Count (🛒)`, `By Repeat Visits (🔁)`.
-  - *"top selling products"* $\rightarrow$ `By Revenue Generated ($)`, `By Units Sold (📦)`.
+  - *"best customer"* $\rightarrow$ `By Total Revenue ($)`, `By Order Count `, `By Repeat Visits `.
+  - *"top selling products"* $\rightarrow$ `By Revenue Generated ($)`, `By Units Sold `.
   - *"recent activity"* $\rightarrow$ `Last 30 Days`, `Previous Month (August 2026)`.
 
 ### **Step 4: SQL Generator & Guardrail Security ([src/services/sqlGenerator.js](file:///e:/SQL_text_AL/src/services/sqlGenerator.js) & [src/services/sqlValidator.js](file:///e:/SQL_text_AL/src/services/sqlValidator.js))**
@@ -126,7 +124,7 @@ To connect the backend directly to your local MS SQL Server instance (e.g. `Text
 
 ---
 
-## 🤖 4. AI Models & Architecture Used
+##  4. AI Models & Architecture Used
 
 The system employs a **Hybrid AI Architecture**:
 
@@ -145,7 +143,7 @@ User Prompt ──► [ Ambiguity Classifier Engine ]
 
 ---
 
-## 💡 5. What the Application Does
+##  5. What the Application Does
 
 | Feature | Description |
 | :--- | :--- |
@@ -157,7 +155,7 @@ User Prompt ──► [ Ambiguity Classifier Engine ]
 
 ---
 
-## 🚀 6. How to Run the App
+## 6. How to Run the App
 
 1. **Start the server:**
    ```bash
