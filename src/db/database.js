@@ -1,4 +1,6 @@
 const initSqlJs = require('sql.js');
+const path = require('path');
+const fs = require('fs');
 
 let db = null;
 let initPromise = null;
@@ -7,7 +9,23 @@ function initDatabase() {
   if (db) return Promise.resolve(db);
   if (initPromise) return initPromise;
 
-  initPromise = initSqlJs().then(SQL => {
+  // Resolve sql-wasm.wasm path for both local and Vercel serverless environments
+  const wasmPathCwd = path.join(process.cwd(), 'node_modules/sql.js/dist/sql-wasm.wasm');
+  const wasmPathDir = path.join(__dirname, '../../node_modules/sql.js/dist/sql-wasm.wasm');
+  const wasmPathVarTask = '/var/task/node_modules/sql.js/dist/sql-wasm.wasm';
+
+  let resolvedWasmPath = wasmPathCwd;
+  if (fs.existsSync(wasmPathVarTask)) {
+    resolvedWasmPath = wasmPathVarTask;
+  } else if (fs.existsSync(wasmPathDir)) {
+    resolvedWasmPath = wasmPathDir;
+  } else if (fs.existsSync(wasmPathCwd)) {
+    resolvedWasmPath = wasmPathCwd;
+  }
+
+  initPromise = initSqlJs({
+    locateFile: file => resolvedWasmPath
+  }).then(SQL => {
     db = new SQL.Database();
 
     // Create Customers table
