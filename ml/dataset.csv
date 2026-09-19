@@ -1,0 +1,30 @@
+text,label,category
+"Show total revenue for 2024",0,none
+"List all customers in Delhi",0,none
+"Get top 5 products by total units sold",0,none
+"Show orders for Priya Sharma",0,none
+"Select customer_name from Customers",0,none
+"List products in Software category",0,none
+"Show orders with total amount greater than 50000",0,none
+"Who is our best customer?",1,metric_ambiguous
+"Who is the top customer?",1,metric_ambiguous
+"Show me the greatest customer",1,metric_ambiguous
+"Which is our top product?",1,metric_ambiguous
+"Show best selling products",1,metric_ambiguous
+"Show recent orders",1,timeframe_ambiguous
+"List new customers",1,timeframe_ambiguous
+"Show recent sales",1,timeframe_ambiguous
+"List inactive customers",1,threshold_ambiguous
+"Show churned users",1,threshold_ambiguous
+"Get dormant users",1,threshold_ambiguous
+"Show me total sales for August 2026",0,none
+"Which customer placed the highest number of orders?",0,none
+"Show customers with total revenue over 100000",0,none
+"Who is our best customer by revenue?",0,none
+"Who is our top customer by order count?",0,none
+"Show top products by gross revenue",0,none
+"List new customers registered in August 2026",0,none
+"Who is our best client?",1,metric_ambiguous
+"Show top clients",1,metric_ambiguous
+"List top performing items",1,metric_ambiguous
+"Show latest transactions",1,timeframe_ambiguous

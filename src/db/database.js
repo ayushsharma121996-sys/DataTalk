@@ -1,7 +1,10 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const dbPath = path.join(__dirname, '../../text_to_sql.db');
+// On Vercel / serverless environments, file write permissions are restricted.
+// Use in-memory database for serverless execution.
+const isServerless = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME;
+const dbPath = isServerless ? ':memory:' : path.join(__dirname, '../../text_to_sql.db');
 const db = new sqlite3.Database(dbPath);
 
 function initDatabase() {

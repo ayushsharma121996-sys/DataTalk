@@ -164,9 +164,13 @@ app.post('/api/clarify', async (req, res) => {
   }
 });
 
-// Start Express server
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`🚀 SQL_text_AL Server running at: http://localhost:${PORT}`);
-  console.log(`=======================================================`);
-});
+// Start Express server locally or export for serverless environment
+if (process.env.NODE_ENV !== 'test' && require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`🚀 SQL_text_AL Server running at: http://localhost:${PORT}`);
+    console.log(`=======================================================`);
+  });
+}
+
+module.exports = app;

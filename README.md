@@ -2,6 +2,9 @@
 
 > **An AI-powered Natural Language to SQL system featuring an interactive Clarification Engine that resolves query ambiguity to elevate Text-to-SQL accuracy from 35% to 85%+.**
 
+---
+
+
 ##  1. Project Overview & Core Concept
 
 Standard Text-to-SQL models frequently fail in real-world business environments because enterprise questions are inherently **ambiguous**. For example, when a user asks *"Who is the best customer?"*, existing LLMs silently assume `best` means `COUNT(orders)`, generating SQL that returns an incorrect result with artificially high confidence (**98% confidence on a flawed premise**).

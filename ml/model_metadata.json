@@ -1,0 +1,9 @@
+{
+  "model_name": "TFIDF_LogisticRegression_AmbiguityClassifier",
+  "accuracy": 100.0,
+  "total_samples": 29,
+  "labels": {
+    "0": "CLEAR",
+    "1": "AMBIGUOUS"
+  }
+}

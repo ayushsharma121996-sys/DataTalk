@@ -173,7 +173,14 @@ function renderQueryResponse(data) {
   let tableHtml = '';
   if (data.data && data.data.length > 0) {
     const cols = Object.keys(data.data[0]);
+    const encodedData = encodeURIComponent(JSON.stringify(data.data));
     tableHtml = `
+      <div class="data-table-header">
+        <span style="font-size: 0.8rem; font-weight: 600; color: #9ca3af;">Query Results (${data.resultCount} rows)</span>
+        <button class="action-btn" onclick="exportToCsv('query_results.csv', '${encodedData}')">
+          📥 Export CSV
+        </button>
+      </div>
       <div class="data-table-container">
         <table class="data-table">
           <thead>
@@ -188,6 +195,8 @@ function renderQueryResponse(data) {
       </div>
     `;
   }
+
+  const encodedSql = escapeHtml(data.sql);
 
   msgEl.innerHTML = `
     <div class="bot-avatar">🤖</div>
@@ -210,9 +219,12 @@ function renderQueryResponse(data) {
       <div class="sql-box">
         <div class="sql-header">
           <span>Generated T-SQL / SQLite Query</span>
-          <span>Confidence: ${data.confidenceScore}%</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span>Confidence: ${data.confidenceScore}%</span>
+            <button class="copy-btn" onclick="copySqlToClipboard(this, \`${data.sql.replace(/`/g, '\\`')}\`)">📋 Copy</button>
+          </div>
         </div>
-        <div class="sql-code">${escapeHtml(data.sql)}</div>
+        <div class="sql-code">${encodedSql}</div>
         <div class="sql-explanation">💡 <strong>Plain English Logic:</strong> ${data.explanation}</div>
       </div>
 
@@ -223,6 +235,47 @@ function renderQueryResponse(data) {
 
   feed.appendChild(msgEl);
   feed.scrollTop = feed.scrollHeight;
+}
+
+function copySqlToClipboard(btn, sqlText) {
+  navigator.clipboard.writeText(sqlText).then(() => {
+    const orig = btn.innerText;
+    btn.innerText = '✓ Copied!';
+    setTimeout(() => { btn.innerText = orig; }, 2000);
+  }).catch(() => {
+    alert('SQL copied to clipboard');
+  });
+}
+
+function exportToCsv(filename, dataJsonEncoded) {
+  try {
+    const data = JSON.parse(decodeURIComponent(dataJsonEncoded));
+    if (!data || !data.length) return;
+    
+    const headers = Object.keys(data[0]);
+    const csvRows = [];
+    csvRows.push(headers.join(','));
+    
+    for (const row of data) {
+      const values = headers.map(header => {
+        const val = row[header] === null ? '' : String(row[header]);
+        const escaped = val.replace(/"/g, '""');
+        return `"${escaped}"`;
+      });
+      csvRows.push(values.join(','));
+    }
+    
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (err) {
+    console.error('Failed to export CSV:', err);
+  }
 }
 
 function appendLoaderMessage() {
@@ -264,3 +317,4 @@ function appendErrorMessage(errorMsg) {
 function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
+

@@ -1,0 +1,4 @@
+node_modules/
+.env
+text_to_sql.db
+*.log
