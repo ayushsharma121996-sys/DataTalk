@@ -15,12 +15,27 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Initialize DB before starting server
-initDatabase().then(() => {
-  console.log('✓ SQLite Database initialized with enterprise sample tables & seed records.');
-}).catch(err => {
-  console.error('✗ Database initialization failed:', err);
+let dbInitPromise = null;
+function ensureDbReady() {
+  if (!dbInitPromise) {
+    dbInitPromise = initDatabase().catch(err => {
+      dbInitPromise = null;
+      throw err;
+    });
+  }
+  return dbInitPromise;
+}
+
+// Database readiness middleware for serverless cold-starts
+app.use(async (req, res, next) => {
+  try {
+    await ensureDbReady();
+    next();
+  } catch (err) {
+    res.status(500).json({ error: 'Database initialization error: ' + err.message });
+  }
 });
+
 
 // 1. Health & Status Endpoint
 app.get('/api/health', async (req, res) => {
